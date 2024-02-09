@@ -122,6 +122,7 @@ def set_meters():
 
 
 def train():
+    print('Sono entrato')
     logger = logging.getLogger()
 
     ## dataset
@@ -197,12 +198,17 @@ def train():
 
 
 def main():
+    #print('OK1')
     local_rank = int(os.environ['LOCAL_RANK'])
+    #print('OK2')
     torch.cuda.set_device(local_rank)
-    dist.init_process_group(backend='nccl')
+    #print('OK3')
+    dist.init_process_group(backend='nccl', world_size = 1, rank = 0)
+    #print('OK4')
 
     if not osp.exists(cfg.respth): os.makedirs(cfg.respth)
     setup_logger(f'{cfg.model_type}-{cfg.dataset.lower()}-train', cfg.respth)
+    #print('Sto oper entrareeeeeeeeeeee')
     train()
 
 
